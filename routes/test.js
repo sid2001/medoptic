@@ -4,4 +4,6 @@ const {getUsers} = require('../controllers/test.js')
 
 router.get('/users',getUsers);
 
+// router.post('/registerTags',registerTags);
+
 module.exports = router;

@@ -1,10 +1,10 @@
 const router = require('express').Router();
-const {postMtag,getMtag,updateMtag} = require('../controllers/mtag.js');
+const {createMtag,getMtag,updateMtag} = require('../controllers/mtag.js');
 const {verifyIdToken} = require('../middlewares/auth.js');
 
-router.post('/createMtag',verifyIdToken,postMtag);
+router.post('/createMtag/:mtagId',verifyIdToken,createMtag);
 
-router.post('/updateMtag/:mtagId', verifyIdToken, updateMtag);
+// router.post('/updateMtag/:mtagId', verifyIdToken, updateMtag);
 
 router.get('/getMtag/:mtagId', getMtag);
 

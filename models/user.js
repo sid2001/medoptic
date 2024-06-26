@@ -1,19 +1,36 @@
-class User{
-  constructor(user){
-    this.uid = user.uid;
-    this.name = user.displayName;
-    this.email = user.email;
-    this.phone = user.phoneNumber;
-  }
+const mongoose = require('mongoose');
 
-  getData(){
-    return {
-      "uid": this.uid,
-      "name": this.name,
-      "email": this.email,
-      "phone": this.phone
-    }
-  }
-}
+const userSchema = new mongoose.Schema({
+  _id: {
+    type: String,
+    required: true
+  },
+  name:{
+    type: String,
+    required: true
+  },
+  storeName:{
+    type: String,
+  },
+  storeAddress:{
+    type: String
+  },
+  //email:{
+    //address: String,
+    //verified: Boolean
+  //},
+  profilePic:{
+    type: String
+  },
+  phone:{
+    type: String,
+    required: true
+  },
+  token:String,
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: undefined}
+})
+
+const User = mongoose.model('User', userSchema);
 
 module.exports = User
