@@ -115,7 +115,6 @@ const createMtag = async (req, res, next) => {
 //     });
 //   }
 // }
-
 const getMtag = async (req, res,next) => {
   const mtagId = req.params['mtagId'];
   try{
@@ -134,6 +133,36 @@ const getMtag = async (req, res,next) => {
   }
 }
 
+const verifyMtagId = async (req, res) => {
+  const mtagId = req.params['mtagId'];
+  try{
+    mtagId = new ObjectId(mtagId);
+  }catch(err){
+    console.error(err);
+    return res.status(400).send({
+      type:'error',
+      message: 'Invalid mtag id'
+    });
+  }
+  try{
+    const qtag = await Qtag.findOne({_id: mtagId});
+    if(!qtag){
+      return res.status(404).send({type:'failed',message:'qtag id does not exist'});
+    }
+    if(qtag.inUse){
+      return res.status(406).send({type:'failed',message:'qtag id already in use'});
+    }
+    return res.status(200).send({type:'success',message:'valid mtag id'});
+  }catch(err){
+    console.error(err);
+    res.status(500).send({
+      type:'error',
+      message: 'Internal Server Error'
+    });
+  }
+}
+
 module.exports.createMtag = createMtag;
 // module.exports.updateMtag = updateMtag;
 module.exports.getMtag = getMtag;
+module.exports.verifyMtagId = verifyMtagId;
