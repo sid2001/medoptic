@@ -11,7 +11,7 @@ const mtagSchema = new Schema({
   medicineDose: String,
   medicineFrequency: String,
   medicineQuantity: {
-    monrning: {
+    morning: {
       beforeMeal: Boolean,
       count: Number
     },

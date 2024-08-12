@@ -33,7 +33,7 @@ const createQtags = async (req,res)=>{
 
 const getQtags = async (req,res)=>{
   if(countValidator(req,res)!==true) return;
-  const {count,page} = req.body;
+  var {count,page} = req.body;
   if(!page) page = 1;
   try{
     const qtags = await Qtag.find({inUse:false}).skip(parseInt(page-1)*count).limit(count);

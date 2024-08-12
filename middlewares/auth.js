@@ -1,7 +1,11 @@
 const { admin } = require('../services/firebase.js'); 
 
 const verifyIdToken = async (req, res, next) => {
-  const idToken = req.headers.authorization?.split(' ')[1].trim();
+  try{
+    var idToken = req.headers.authorization?.split(' ')[1].trim();
+  }catch(err){
+    return res.status(401).json({ error: 'Unauthorized: No token provided' });
+  }
   console.log("idToken:", idToken,"sd")
   if (!idToken) {
     return res.status(401).json({ error: 'Unauthorized: No token provided' });

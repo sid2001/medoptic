@@ -2,8 +2,8 @@ const User = require('../models/user');
 const Template = require('../models/template');
 
 const updateUserInfo = async (req, res) => {
-  const uid = req.user.uid;
   try{
+    const uid = req.user.uid;
     const user = await User.findOne({_id:uid});
     if(!user){
       res.status(404).send({type:'failed',message:'User not found'});
@@ -33,9 +33,9 @@ const updateUserInfo = async (req, res) => {
 } 
 
 const registerUser = async (req,res) => {
-  const {uid, phone_number: phone} = req.user;
-  const {name,storeName,storeAddress} = req.body;
   try{
+    const {uid, phone_number: phone} = req.user;
+    const {name,storeName,storeAddress} = req.body;
     const user = await User.findOne({_id:uid});
     if(user){
       res.status(400).send({type:'failed',message:'User already exists'});
@@ -61,9 +61,9 @@ const registerUser = async (req,res) => {
   }
 }
 const getUserInfo = async (req, res) => {
-  const uid = req.user.uid;
-  console.log('user request id:', uid);
   try{
+    const uid = req.user.uid;
+    console.log('user request id:', uid);
     const user = await User.findOne({_id:uid});
     if(!user){
       res.status(404).send({type:'failed',message:'User not found'});
@@ -85,14 +85,14 @@ const getUserInfo = async (req, res) => {
       res.status(200).send({type:'success',message:'User found',data:payload});
     }
   }catch(err){
-    console.debub(err);
+    console.debug(err);
     res.status(500).send({type:'failed',message:'Something went wrong'});
   }
 }
 
 const deleteUser = async (req,res)=>{
-  const uid = req.user.uid;
   try{
+    const uid = req.user.uid;
     const user = await User.findOne({_id:uid});
     if(!user){
       res.status(404).send({type:'failed',message:'User not found'});

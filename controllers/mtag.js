@@ -38,7 +38,7 @@ const createMtag = async (req, res, next) => {
     const newMtag = new Mtag(data);
     await newMtag.save();
   }catch(err){
-    res.status(500).send({type:'failed',message:'Something went wrong'});
+    return res.status(500).send({type:'failed',message:'Something went wrong'});
   }
   try{
     if(saveAsTemplate!==undefined&&saveAsTemplate===true){
@@ -57,19 +57,19 @@ const createMtag = async (req, res, next) => {
       console.log('template from post Mtag: ',template);
       delete payload.userId;
       delete payload.storeName;
-      res.status(200).json({type:'success',message:'mtag created successfully',data:{
+      return res.status(200).json({type:'success',message:'mtag created successfully',data:{
         template:{
           ...payload,
           _id : templateId
         }
       }});
     }else{
-      res.status(200).json({type:'success',message:'mtag created successfully'});
+      console.info('created mtag');
+      return res.status(200).json({type:'success',message:'mtag created successfully'});
     }
-    console.info('created mtag');
     }catch(err){
       console.error(err);
-      res.status(207).send({
+      return res.status(207).send({
         type:'partial success',
         message: "couldn't create template"
       });
@@ -134,14 +134,14 @@ const getMtag = async (req, res,next) => {
 }
 
 const verifyMtagId = async (req, res) => {
-  const mtagId = req.params['mtagId'];
+  var mtagId = req.params['mtagId'];
   try{
     mtagId = new ObjectId(mtagId);
   }catch(err){
     console.error(err);
     return res.status(400).send({
       type:'error',
-      message: 'Invalid mtag id'
+      message: 'Invalid medTag Id'
     });
   }
   try{
