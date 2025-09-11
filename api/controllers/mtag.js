@@ -8,18 +8,13 @@ const Qtag = require('../models/qtag');
 const registerRFID = async (req, res, next) => {
   console.log("regisering RFID");
   try {
-    const rfidKeyHash = req.user.rfidKeyHash;
-    if (!rfidKeyHash) {
-      return res.status(400).send({ type: 'failed', message: 'rfidKeyHash missing in token' });
-    }
+    const {rfidKeyHash} = req.user.body;
 
     if (await Mtag.findOne({ _id: rfidKeyHash })) {
       return res.status(409).send({ type: 'failed', message: 'Duplicate registeration.' });
     }
 
     const userId = req.user.uid;
-    let storeName = await User.findOne({ _id: userId }).select('storeName');
-    storeName = storeName?.storeName;
 
     const { name, emailDuration, medicineDose,medicineName, doctorName, medicineFrequency, beforeMeal, medicineDuration, expiryDate, notes, email, dayMask } = req.body;
 
