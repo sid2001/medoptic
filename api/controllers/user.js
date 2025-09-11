@@ -111,10 +111,6 @@ const deleteUser = async (req,res)=>{
 }
 
 
-/**
- * Records an RFID scan event.
- * Expects body: { rfidKeyHash, frequencyMask, dayMask }
- */
 const recordRfidScan = async (req, res) => {
   try{
     const { rfidKeyHash, frequencyMask, dayMask } = req.body;

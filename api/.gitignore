@@ -1,1 +1,7 @@
 .vercel
+node_modules
+.google_tokens
+credentials.json
+credentials1.json
+.env
+firebase.json

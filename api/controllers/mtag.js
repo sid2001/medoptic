@@ -21,7 +21,7 @@ const registerRFID = async (req, res, next) => {
     let storeName = await User.findOne({ _id: userId }).select('storeName');
     storeName = storeName?.storeName;
 
-    const { medicineName, doctorName, medicineDose, medicineFrequency, medicineQuantity, expiryDate, notes, email, dayMask } = req.body;
+    const { medicineName, doctorName, medicineDose, medicineFrequency, beforeMeal, duration, expiryDate, notes, email, dayMask } = req.body;
 
     // Optional basic validation for dayMask (expect 7 chars of 0/1 for Mon..Sun)
     if(dayMask && (!/^([01]{7})$/.test(dayMask))){
@@ -36,7 +36,8 @@ const registerRFID = async (req, res, next) => {
       medicineName,
       medicineDose,
       medicineFrequency,
-      medicineQuantity,
+      duration,
+      beforeMeal,
       expiryDate,
       notes,
       rfidKeyHash,
