@@ -13,7 +13,7 @@ const registerRFID = async (req, res, next) => {
       return res.status(400).send({ type: 'failed', message: 'rfidKeyHash missing in token' });
     }
 
-    if (await Mtag.findOne({ rfidKeyHash })) {
+    if (await Mtag.findOne({ _id: rfidKeyHash })) {
       return res.status(409).send({ type: 'failed', message: 'Duplicate registeration.' });
     }
 
@@ -21,7 +21,7 @@ const registerRFID = async (req, res, next) => {
     let storeName = await User.findOne({ _id: userId }).select('storeName');
     storeName = storeName?.storeName;
 
-    const { medicineName, doctorName, medicineDose, medicineFrequency, beforeMeal, duration, expiryDate, notes, email, dayMask } = req.body;
+    const { name, emailDuration, medicineDose,medicineName, doctorName, medicineFrequency, beforeMeal, medicineDuration, expiryDate, notes, email, dayMask } = req.body;
 
     // Optional basic validation for dayMask (expect 7 chars of 0/1 for Mon..Sun)
     if(dayMask && (!/^([01]{7})$/.test(dayMask))){
@@ -31,16 +31,16 @@ const registerRFID = async (req, res, next) => {
     const data = {
       _id: rfidKeyHash,
       userId,
-      storeName,
       doctorName,
+      emailDuraion: new Date(emailDuration),
       medicineName,
       medicineDose,
-      medicineFrequency,
-      duration,
       beforeMeal,
+      medicineFrequency,
       expiryDate,
+      medicineDuration,
       notes,
-      rfidKeyHash,
+      name,
       email,
       dayMask
     };
