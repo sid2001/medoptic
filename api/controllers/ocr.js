@@ -11,7 +11,7 @@ function parseResult(result) {
 const ocr = async (req, res) => {
   try{
     console.log(req.file);
-    const mimetype = req.file.mimetype;
+    const mimetype = 'image/png';
     const data = req.file.buffer;
     const context = generateContext(mimetype, data);
     const result = await extractContent(context);
