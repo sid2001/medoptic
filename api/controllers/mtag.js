@@ -11,8 +11,8 @@ const registerRFID = async (req, res, next) => {
     const {rfidKeyHash} = req.body;
     let flag = false;
     if (await Mtag.findOne({ _id: rfidKeyHash })) {
-      Mtag.deleteOne({ _id: rfidKeyHash });
-      console.info('deleted old RFID');
+      // Mtag.deleteOne({ _id: rfidKeyHash });
+      // console.info('deleted old RFID');
       flag = true;
       // return res.status(409).send({ type: 'failed', message: 'Duplicate registeration.' });
     }
@@ -42,8 +42,11 @@ const registerRFID = async (req, res, next) => {
       email,
       dayMask
     };
-
-    const newMtag = new Mtag(data);
+    if(flag) {
+      Mtag.updateOne({ _id: rfidKeyHash }, data);
+    }else{
+      const newMtag = new Mtag(data);
+    }
     await newMtag.save();
     console.info('registered RFID');
     return res.status(200).json({ type: 'success', message: 'rfid registered successfully' + `${flag ? ' (deleted old RFID)' : ''}`  });

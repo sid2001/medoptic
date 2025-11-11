@@ -1,7 +1,7 @@
 const {GoogleGenAI} =  require("@google/genai");
-
+require('dotenv').config();
 const ai = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY});
-
+// console.log("key ", process.env.GEMINI_API_KEY);
 const context = `templateName: A short name to identify this prescription template.
 doctorName: Full name of the doctor in the prescription.
 medicineName: Name of the medicine prescribed.
@@ -21,13 +21,13 @@ expiryDate: The date until the prescription is valid, if mentioned.
 notes: Any additional instructions written by the doctor.
 `;
 
-function generateContext(mimetype = "text/plain", data) {
+function generateContext(mimeType = "text/plain", data) {
     return [
-      {text: `${context}\nExtract the following details from the given document/image and output in JSON format in the same sequence.`},
+      {text: `${context}\nExtract the following details from the given document/image and output in JSON format in the same sequence. Extract only one medicine data.`},
       {
         inlineData: {
-          mimetype,
-          data
+          mimeType,
+          data: data.toString('base64')
         }
       }
     ];
