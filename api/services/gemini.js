@@ -9,7 +9,7 @@ Match this exact schema:
 {
   "doctorName": "string",
   "medicineName": "string",
-  "beforeMeal": true or false,
+  "beforeMeal": true or false defaults to true,
   "medicineFrequency": {
     "morning": quantity,
     "afternoon": quantity,
@@ -21,15 +21,7 @@ Match this exact schema:
   "notes": "string or null",
   "name": "patient name string or null",
   "email": "patient email string or null",
-  "dayMask": "7 character string of 1/0 representing Mon-Sun (generate based on medicineFrequency if possible)",
-  "createdAt": "auto",
-  "updatedAt": "auto"
 }
-
-Example dayMask meanings:
-"1111111" = every day
-"1111100" = Mon-Fri
-"1000001" = Sun & Mon only
 
 Example medicineFrequency meanings:
 {
@@ -37,6 +29,9 @@ Example medicineFrequency meanings:
   "afternoon": 1,
   "evening": 1
 }
+
+Example Dose:
+Dose: 100mg
 
 Return ONLY JSON. No text. No comments. No backticks.
 `;
