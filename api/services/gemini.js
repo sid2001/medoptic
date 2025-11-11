@@ -10,7 +10,11 @@ Match this exact schema:
   "doctorName": "string",
   "medicineName": "string",
   "beforeMeal": true or false,
-  "medicineFrequency": "string",
+  "medicineFrequency": {
+    "morning": quantity,
+    "afternoon": quantity,
+    "evening": quantity
+  },
   "medicineDose": "string",
   "expiryDate": "YYYY-MM-DD or null",
   "medicineDuration": number (days) or null,
@@ -26,6 +30,13 @@ Example dayMask meanings:
 "1111111" = every day
 "1111100" = Mon-Fri
 "1000001" = Sun & Mon only
+
+Example medicineFrequency meanings:
+{
+  "morning": 1,
+  "afternoon": 1,
+  "evening": 1
+}
 
 Return ONLY JSON. No text. No comments. No backticks.
 `;
