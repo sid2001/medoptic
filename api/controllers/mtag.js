@@ -46,8 +46,8 @@ const registerRFID = async (req, res, next) => {
       Mtag.updateOne({ _id: rfidKeyHash }, data);
     }else{
       const newMtag = new Mtag(data);
+      await newMtag.save();
     }
-    await newMtag.save();
     console.info('registered RFID');
     return res.status(200).json({ type: 'success', message: 'rfid registered successfully' + `${flag ? ' (deleted old RFID)' : ''}`  });
   }catch(err) {
