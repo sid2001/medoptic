@@ -17,7 +17,7 @@ const weeklyReportSchema = new Schema({
   generatedAt: { type: Date, default: Date.now }
 }, { timestamps: true });
 
-weeklyReportSchema.index({ email: 1, weekStart: 1 }, { unique: true });
+// weeklyReportSchema.index({ email: 1, weekStart: 1 }, { unique: true });
 
 WeeklyReport = mongoose.model('WeeklyReport', weeklyReportSchema);
 module.exports = WeeklyReport;

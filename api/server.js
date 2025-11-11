@@ -1,5 +1,6 @@
 const express = require('express');
-const cors = require('cors'); 
+const cors = require('cors');
+const ocr = require('./routes/ocr');
 const testRoutes = require('./routes/test');
 const mtagRoutes = require('./routes/mtag');
 const userRoutes = require('./routes/user');
@@ -40,6 +41,10 @@ app.use('/mtag', mtagRoutes);
 app.use('/user', userRoutes);
 app.use('/template', templateRoutes);
 app.use('/admin', adminRoutes);
+app.use('/file', ocr);
+app.use('/', (req,res)=>{
+  res.send('hello');
+});
 
 mongoose.connect(process.env.MONGO_URI,{dbName:'medoptic'})
 .then(()=>{

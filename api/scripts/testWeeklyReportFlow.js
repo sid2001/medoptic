@@ -45,11 +45,8 @@ async function seedMtags(){
         medicineName: 'Panacea',
         medicineDose: '500mg',
         medicineFrequency: '1111',
-        medicineQuantity: {
-          morning: { beforeMeal: true, count: 1 },
-          afternoon: { beforeMeal: false, count: 1 },
-          evening: { beforeMeal: false, count: 1 }
-        },
+        beforeMeal: true,
+        duration: 30,
         expiryDate: new Date(Date.now() + 30*24*60*60*1000),
         notes: 'Test note',
         email: it.email,

@@ -8,10 +8,13 @@ const Qtag = require('../models/qtag');
 const registerRFID = async (req, res, next) => {
   console.log("regisering RFID");
   try {
-    const {rfidKeyHash} = req.user.body;
-
+    const {rfidKeyHash} = req.body;
+    let flag = false;
     if (await Mtag.findOne({ _id: rfidKeyHash })) {
-      return res.status(409).send({ type: 'failed', message: 'Duplicate registeration.' });
+      Mtag.deleteOne({ _id: rfidKeyHash });
+      console.info('deleted old RFID');
+      flag = true;
+      // return res.status(409).send({ type: 'failed', message: 'Duplicate registeration.' });
     }
 
     const userId = req.user.uid;
@@ -43,7 +46,7 @@ const registerRFID = async (req, res, next) => {
     const newMtag = new Mtag(data);
     await newMtag.save();
     console.info('registered RFID');
-    return res.status(200).json({ type: 'success', message: 'rfid registered successfully' });
+    return res.status(200).json({ type: 'success', message: 'rfid registered successfully' + `${flag ? ' (deleted old RFID)' : ''}`  });
   }catch(err) {
     console.error("REGISTER::RFID::Something went wrong: ", err);
     return res.status(500).send({type: 'failed', message: 'Cannot register RFID'});
@@ -181,3 +184,5 @@ module.exports.createMtag = createMtag;
 module.exports.getMtag = getMtag;
 module.exports.verifyMtagId = verifyMtagId;
 module.exports.registerRFID = registerRFID;
+
+
