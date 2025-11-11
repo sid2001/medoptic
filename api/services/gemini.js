@@ -2,28 +2,37 @@ const {GoogleGenAI} =  require("@google/genai");
 require('dotenv').config();
 const ai = new GoogleGenAI({apiKey: process.env.GEMINI_API_KEY});
 // console.log("key ", process.env.GEMINI_API_KEY);
-const context = `templateName: A short name to identify this prescription template.
-doctorName: Full name of the doctor in the prescription.
-medicineName: Name of the medicine prescribed.
-medicineDose: The dosage strength (example: "500mg", "2ml", "10mg/5ml").
-medicineFrequency: How often the medicine should be taken (example: "twice a day", "3 times daily").
-medicineQuantity:
-  morning:
-    beforeMeal: true/false (whether to take before meal)
-    count: number of tablets/doses in the morning
-  afternoon:
-    beforeMeal: true/false
-    count: number of tablets/doses in the afternoon
-  evening:
-    beforeMeal: true/false
-    count: number of tablets/doses in the evening
-expiryDate: The date until the prescription is valid, if mentioned.
-notes: Any additional instructions written by the doctor.
+const context = `
+Extract the prescription data and return ONLY JSON with NO explanation.
+Match this exact schema:
+
+{
+  "doctorName": "string",
+  "medicineName": "string",
+  "beforeMeal": true or false,
+  "medicineFrequency": "string",
+  "medicineDose": "string",
+  "expiryDate": "YYYY-MM-DD or null",
+  "medicineDuration": number (days) or null,
+  "notes": "string or null",
+  "name": "patient name string or null",
+  "email": "patient email string or null",
+  "dayMask": "7 character string of 1/0 representing Mon-Sun (generate based on medicineFrequency if possible)",
+  "createdAt": "auto",
+  "updatedAt": "auto"
+}
+
+Example dayMask meanings:
+"1111111" = every day
+"1111100" = Mon-Fri
+"1000001" = Sun & Mon only
+
+Return ONLY JSON. No text. No comments. No backticks.
 `;
 
 function generateContext(mimeType = "text/plain", data) {
     return [
-      {text: `${context}\nExtract the following details from the given document/image and output in JSON format in the same sequence. Extract only one medicine data.`},
+      {text: `${context}\nExtract only one medicine data.`},
       {
         inlineData: {
           mimeType,
